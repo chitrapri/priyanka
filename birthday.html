@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cookie&display=swap"
+      rel="stylesheet"
+    />
+    <title>Document</title>
+  </head>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap");
+    @import url("https://fonts.googleapis.com/css?family=Shadows+Into+Light&display=swap");
+
+    /* Defining the theme for the card: colors, fonts, spacing. 
+This uses CSS variables - so you only have to change the colors in one place */
+    :root {
+      /* The color for your card background and background pattern */
+      --background: #f3f0d7;
+      --background-decor: #dbd0c0;
+
+      /* Colors for the elements on your card */
+      --banner-bg: #1c0c5b;
+      --banner-txt: white;
+
+      /* Message area colors */
+      --message-bg: #f1ede9;
+      --message-line: #94acd4;
+      --message-txt: #333333;
+
+      /* Fonts */
+      /* --font-banner: "Abril Fatface", cursive; */
+      --font-text: "Shadows Into Light", cursive;
+
+      /* Space and other details */
+      --space: 16px;
+      --space-xsm: 4px;
+      --space-sm: 8px;
+      --space-lg: 24px;
+      --space-xlg: 48px;
+    }
+
+    /* Base template configurations */
+    body {
+      height: 100vh;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      overflow: hidden;
+      /* background color - here we are using the variable we created earlier! */
+      background-color: var(--background);
+
+      /* background pattern - remove the lines below and paste the new code if you want to use a different style */
+      background-image: radial-gradient(
+          var(--background-decor) 20%,
+          transparent 0
+        ),
+        radial-gradient(var(--background-decor) 20%, transparent 0);
+      background-size: 30px 30px;
+      background-position: 0 0, 15px 15px;
+    }
+
+    .bday-card {
+      width: 100%;
+      /* padding-top: var(--space-lg); */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      position: absolute;
+      top: 0;
+    }
+
+    .bday-pic {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 280px;
+      height: 240px;
+      padding: var(--space-sm) var(--space-sm) var(--space-xlg);
+      background: white;
+      border-radius: 4px;
+      box-shadow: var(--space-xsm) var(--space-xsm) 15px rgba(0, 0, 0, 0.15);
+
+      /* Edit the Translate property below to adjust the position of your picture */
+      transform: rotate(5deg) translate(20px, 45px);
+    }
+
+    .bday-pic img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .bday-decor--container {
+      position: relative;
+    }
+
+    .bday-banner {
+      display: flex;
+      flex-direction: column;
+      align-items: baseline;
+      font-size: 42px;
+      z-index: 1;
+
+      /* Play around with those properties to change your banner styling */
+      color: var(--banner-txt);
+      /* font-family: var(--font-banner); */
+      font-family: "Alex Brush", cursive;
+      /* text-transform: uppercase; */
+      transform: rotate(-5deg);
+      gap: var(--space-sm) 0;
+    }
+
+    .bday-banner span {
+      background: var(--banner-bg);
+      padding: var(--space) var(--space-lg);
+      flex-grow: 0;
+    }
+
+    .bday-banner span:nth-child(2) {
+      margin-left: var(--space-lg);
+    }
+
+    .bday-message {
+      max-width: 80%;
+      padding: 35px var(--space);
+      /* font-family: var(--font-text); */
+      font-family: "Cookie", cursive;
+      font-size: 24px;
+      line-height: 32px;
+      color: var(--message-txt);
+      background-color: var(--message-bg);
+    }
+
+    /* Paper */
+    .bday-message--paper {
+      background: repeating-linear-gradient(
+        var(--message-bg),
+        var(--message-bg) 31px,
+        var(--message-line) 31px,
+        var(--message-line) 32px
+      );
+      box-shadow: var(--space-xsm) var(--space-xsm) 15px rgba(0, 0, 0, 0.15);
+    }
+    /* End - Paper */
+
+    /* Block right */
+    .bday-message--block-right {
+      position: relative;
+    }
+
+    .bday-message--block-right::before {
+      content: "";
+      width: 100vw;
+      height: 100%;
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      background: var(--paper);
+      z-index: -1;
+    }
+    /* End - Block right */
+
+    /* Block left */
+    .bday-message--block-left {
+      position: relative;
+    }
+
+    .bday-message--block-left::before {
+      content: "";
+      width: 100vw;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      background: var(--paper);
+      z-index: -1;
+    }
+    /* End - Block left */
+
+    .bday-decor {
+      /* Emojis are text - so here we are setting a font-size to make them bigger */
+      font-size: 96px;
+    }
+
+    /* Positioning for the emojis - play around with the values to change the placement of your decorations */
+    .bday-decor--top-right {
+      position: absolute;
+      bottom: -70px;
+      right: -20px;
+    }
+
+    .bday-decor--top-left {
+      position: absolute;
+      bottom: 0px;
+      left: -25px;
+    }
+
+    .bday-decor--bottom-right {
+      position: absolute;
+      right: 20px;
+    }
+
+    /* Animations */
+
+    /* Here we designate an specific animation to an specific element using a class. We have a defined name, time and iteration-count for each animation. We can also define the origin point from which the animation will happen - the default is the center. */
+    .zoom-left-in-out {
+      animation-name: zoom-left-in-out;
+      animation-duration: 1.75s;
+      animation-iteration-count: infinite;
+      transform-origin: left bottom;
+    }
+
+    /* Here we specify what will change on the element when they animate */
+    @keyframes zoom-left-in-out {
+      /* Animation will start and end with the same settings */
+      0%,
+      100% {
+        transform: scale(0.95) rotate(2deg);
+      }
+
+      /* Animation will reach those settings 50% into the duration time we set on the declaration */
+      50% {
+        transform: scale(1) rotate(-2deg);
+      }
+    }
+
+    /* pulse */
+    .pulse {
+      animation-name: pulse;
+      animation-duration: 1.3s;
+      animation-iteration-count: infinite;
+    }
+
+    @keyframes pulse {
+      0%,
+      100% {
+        transform: scale(0.9);
+      }
+
+      50% {
+        transform: scale(1);
+      }
+    }
+    /* pulse - End */
+
+    /* float */
+    .float {
+      animation-name: float;
+      animation-duration: 1.9s;
+      animation-iteration-count: infinite;
+    }
+
+    @keyframes float {
+      0%,
+      100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(10px);
+      }
+    }
+    /* float - End */
+
+    /* spin */
+    .spin {
+      animation-name: spin;
+      animation-duration: 3s;
+      animation-iteration-count: infinite;
+      animation-timing-function: linear;
+    }
+
+    @keyframes spin {
+      from {
+        transform: rotate(0);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+    .bdat-text {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      left: -123px;
+    }
+    .bdat-text img {
+      position: absolute;
+    }
+    .custom-image {
+      width: 100%;
+      background-color: gray;
+    }
+    .maincontainer {
+      width: 100%;
+      display: flex;
+      height: 100vh;
+      flex-direction: column;
+    }
+    /* spin - End */
+    /* pics slider css */
+    @keyframes scroll {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(calc(-250px * 7));
+      }
+    }
+    .slider {
+      background: white;
+      height: 172px;
+      overflow: hidden;
+      width: 100%;
+    }
+    .slider::before,
+    .slider::after {
+      background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 1) 0%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      content: "";
+      height: 100px;
+      position: absolute;
+      width: 200px;
+      z-index: 2;
+    }
+    .slider::after {
+      right: 0;
+      top: 0;
+      transform: rotateZ(180deg);
+    }
+    .slider::before {
+      left: 0;
+      top: 0;
+    }
+    .slider .slide-track {
+      animation: scroll 40s linear infinite;
+      display: flex;
+      /* width: calc(250px * 14); */
+    }
+    .slider .slide {
+      /* height: 100px; */
+      width: 200px;
+    }
+    .slider.text-slider {
+      height: 200px;
+      background-color: transparent;
+    }
+    .slider.text-slider .slide {
+      width: auto;
+      margin: 0 20px;
+    }
+
+    .slider.text-slider .slide p {
+      font-family: "Cookie", cursive;
+      font-size: 20px;
+    }
+  </style>
+  <body>
+    <div class="maincontainer">
+      <!-- pics slider -->
+      <div class="slider">
+        <div class="slide-track">
+          <div class="slide">
+            <img
+              src="WhatsApp Image 2022-09-22 at 3.21.30 PM.jpg"
+              width="100px"
+            />
+          </div>
+          <div class="slide">
+            <img src="Snapchat-1957995799.jpg" width="100px" alt="" />
+          </div>
+          <div class="slide">
+            <img
+              src="WhatsApp Image 2022-09-22 at 3.21.30 PM.jpg"
+              width="100px"
+            />
+          </div>
+          <div class="slide">
+            <img src="Snapchat-2008391710.jpg" width="100px" alt="" />
+          </div>
+          <div class="slide">
+            <img
+              src="WhatsApp Image 2022-09-23 at 12.23.59 PM.jpg"
+              width="100px"
+            />
+          </div>
+          <div class="slide">
+            <img src="Snapchat-658578811.jpg" width="100px" alt="" />
+          </div>
+          <div class="slide">
+            <img
+              src="WhatsApp Image 2022-09-22 at 3.21.30 PM.jpg"
+              width="100px"
+            />
+          </div>
+          <div class="slide">
+            <img src="Snapchat-1957995799.jpg" width="100px" alt="" />
+          </div>
+          <div class="slide">
+            <img
+              src="WhatsApp Image 2022-09-22 at 3.21.30 PM.jpg"
+              width="100px"
+            />
+          </div>
+          <div class="slide">
+            <img src="Snapchat-2008391710.jpg" width="100px" alt="" />
+          </div>
+          <div class="slide">
+            <img
+              src="WhatsApp Image 2022-09-23 at 12.23.59 PM.jpg"
+              width="100px"
+            />
+          </div>
+          <div class="slide">
+            <img src="Snapchat-658578811.jpg" width="100px" alt="" />
+          </div>
+          <div class="slide">
+            <img
+              src="WhatsApp Image 2022-09-22 at 3.21.30 PM.jpg"
+              width="100px"
+            />
+          </div>
+          <div class="slide">
+            <img
+              src="WhatsApp Image 2022-09-22 at 3.21.30 PM.jpg"
+              width="100px"
+            />
+          </div>
+          <div class="slide">
+            <img src="Snapchat-1957995799.jpg" width="100px" alt="" />
+          </div>
+          <div class="slide">
+            <img
+              src="WhatsApp Image 2022-09-22 at 3.21.30 PM.jpg"
+              width="100px"
+            />
+          </div>
+          <div class="slide">
+            <img src="Snapchat-2008391710.jpg" width="100px" alt="" />
+          </div>
+          <div class="slide">
+            <img
+              src="WhatsApp Image 2022-09-23 at 12.23.59 PM.jpg"
+              width="100px"
+            />
+          </div>
+          <div class="slide">
+            <img src="Snapchat-658578811.jpg" width="100px" alt="" />
+          </div>
+          <div class="slide">
+            <img
+              src="WhatsApp Image 2022-09-22 at 3.21.30 PM.jpg"
+              width="100px"
+            />
+          </div>
+          <div class="slide">
+            <img src="Snapchat-1957995799.jpg" width="100px" alt="" />
+          </div>
+          <div class="slide">
+            <img
+              src="WhatsApp Image 2022-09-22 at 3.21.30 PM.jpg"
+              width="100px"
+            />
+          </div>
+          <div class="slide">
+            <img src="Snapchat-2008391710.jpg" width="100px" alt="" />
+          </div>
+          <div class="slide">
+            <img
+              src="WhatsApp Image 2022-09-23 at 12.23.59 PM.jpg"
+              width="100px"
+            />
+          </div>
+          <div class="slide">
+            <img src="Snapchat-658578811.jpg" width="100px" alt="" />
+          </div>
+          <div class="slide">
+            <img
+              src="WhatsApp Image 2022-09-22 at 3.21.30 PM.jpg"
+              width="100px"
+            />
+          </div>
+          <div class="slide">
+            <img src="Snapchat-1957995799.jpg" width="100px" alt="" />
+          </div>
+          <div class="slide">
+            <img
+              src="WhatsApp Image 2022-09-22 at 3.21.30 PM.jpg"
+              width="100px"
+            />
+          </div>
+          <div class="slide">
+            <img src="Snapchat-2008391710.jpg" width="100px" alt="" />
+          </div>
+          <div class="slide">
+            <img
+              src="WhatsApp Image 2022-09-23 at 12.23.59 PM.jpg"
+              width="100px"
+            />
+          </div>
+          <div class="slide">
+            <img src="Snapchat-658578811.jpg" width="100px" alt="" />
+          </div>
+          <div class="slide">
+            <img
+              src="WhatsApp Image 2022-09-22 at 3.21.30 PM.jpg"
+              width="100px"
+            />
+          </div>
+          <div class="slide">
+            <img
+              src="WhatsApp Image 2022-09-22 at 3.21.30 PM.jpg"
+              width="100px"
+            />
+          </div>
+          <div class="slide">
+            <img src="Snapchat-1957995799.jpg" width="100px" alt="" />
+          </div>
+          <div class="slide">
+            <img
+              src="WhatsApp Image 2022-09-22 at 3.21.30 PM.jpg"
+              width="100px"
+            />
+          </div>
+          <div class="slide">
+            <img src="Snapchat-2008391710.jpg" width="100px" alt="" />
+          </div>
+          <div class="slide">
+            <img
+              src="WhatsApp Image 2022-09-23 at 12.23.59 PM.jpg"
+              width="100px"
+            />
+          </div>
+          <div class="slide">
+            <img src="Snapchat-658578811.jpg" width="100px" alt="" />
+          </div>
+        </div>
+      </div>
+      <!-- text-slider -->
+      <div class="slider text-slider">
+        <div class="slide-track">
+          <div class="slide">
+            <p>😊extra candle on the cake🍰👀</p>
+          </div>
+          <div class="slide">
+            <p>Alexa, play birthday bash🎉🎉</p>
+          </div>
+          <div class="slide">
+            <p>level up 💹</p>
+          </div>
+          <div class="slide">
+            <p>count the candles babes🔥👏</p>
+          </div>
+          <div class="slide">
+            <p>ageing fine like wine 😂</p>
+          </div>
+          <div class="slide">
+            <p>another season end 👀🖤</p>
+          </div>
+          <div class="slide">
+            <p>new chapter, first page, excited for it or not?? (❁´◡`❁)</p>
+          </div>
+          <div class="slide">
+            <p>been slaying since whenever you born 😊😂</p>
+          </div>
+          <div class="slide">
+            <p>Glow day😊✨💖</p>
+          </div>
+          <div class="slide">
+            <p>😊extra candle on the cake🍰👀</p>
+          </div>
+          <div class="slide">
+            <p>Alexa, play birthday bash🎉🎉</p>
+          </div>
+          <div class="slide">
+            <p>level up 💹</p>
+          </div>
+          <div class="slide">
+            <p>count the candles babes🔥👏</p>
+          </div>
+          <div class="slide">
+            <p>ageing fine like wine 😂</p>
+          </div>
+          <div class="slide">
+            <p>another season end 👀🖤</p>
+          </div>
+          <div class="slide">
+            <p>new chapter, first page, excited for it or not?? (❁´◡`❁)</p>
+          </div>
+          <div class="slide">
+            <p>been slaying since whenever you born 😊😂</p>
+          </div>
+          <div class="slide">
+            <p>Glow day😊✨💖</p>
+          </div>
+          <div class="slide">
+            <p>😊extra candle on the cake🍰👀</p>
+          </div>
+          <div class="slide">
+            <p>Alexa, play birthday bash🎉🎉</p>
+          </div>
+          <div class="slide">
+            <p>level up 💹</p>
+          </div>
+          <div class="slide">
+            <p>count the candles babes🔥👏</p>
+          </div>
+          <div class="slide">
+            <p>ageing fine like wine 😂</p>
+          </div>
+          <div class="slide">
+            <p>another season end 👀🖤</p>
+          </div>
+          <div class="slide">
+            <p>new chapter, first page, excited for it or not?? (❁´◡`❁)</p>
+          </div>
+          <div class="slide">
+            <p>been slaying since whenever you born 😊😂</p>
+          </div>
+          <div class="slide">
+            <p>Glow day😊✨💖</p>
+          </div>
+          <div class="slide">
+            <p>😊extra candle on the cake🍰👀</p>
+          </div>
+          <div class="slide">
+            <p>Alexa, play birthday bash🎉🎉</p>
+          </div>
+          <div class="slide">
+            <p>level up 💹</p>
+          </div>
+          <div class="slide">
+            <p>count the candles babes🔥👏</p>
+          </div>
+          <div class="slide">
+            <p>ageing fine like wine 😂</p>
+          </div>
+          <div class="slide">
+            <p>another season end 👀🖤</p>
+          </div>
+          <div class="slide">
+            <p>new chapter, first page, excited for it or not?? (❁´◡`❁)</p>
+          </div>
+          <div class="slide">
+            <p>been slaying since whenever you born 😊😂</p>
+          </div>
+          <div class="slide">
+            <p>Glow day😊✨💖</p>
+          </div>
+          <div class="slide">
+            <p>😊extra candle on the cake🍰👀</p>
+          </div>
+          <div class="slide">
+            <p>Alexa, play birthday bash🎉🎉</p>
+          </div>
+          <div class="slide">
+            <p>level up 💹</p>
+          </div>
+          <div class="slide">
+            <p>count the candles babes🔥👏</p>
+          </div>
+          <div class="slide">
+            <p>ageing fine like wine 😂</p>
+          </div>
+          <div class="slide">
+            <p>another season end 👀🖤</p>
+          </div>
+          <div class="slide">
+            <p>new chapter, first page, excited for it or not?? (❁´◡`❁)</p>
+          </div>
+          <div class="slide">
+            <p>been slaying since whenever you born 😊😂</p>
+          </div>
+          <div class="slide">
+            <p>Glow day😊✨💖</p>
+          </div>
+          <div class="slide">
+            <p>😊extra candle on the cake🍰👀</p>
+          </div>
+          <div class="slide">
+            <p>Alexa, play birthday bash🎉🎉</p>
+          </div>
+          <div class="slide">
+            <p>level up 💹</p>
+          </div>
+          <div class="slide">
+            <p>count the candles babes🔥👏</p>
+          </div>
+          <div class="slide">
+            <p>ageing fine like wine 😂</p>
+          </div>
+          <div class="slide">
+            <p>another season end 👀🖤</p>
+          </div>
+          <div class="slide">
+            <p>new chapter, first page, excited for it or not?? (❁´◡`❁)</p>
+          </div>
+          <div class="slide">
+            <p>been slaying since whenever you born 😊😂</p>
+          </div>
+          <div class="slide">
+            <p>Glow day😊✨💖</p>
+          </div>
+        </div>
+      </div>
+      <div class="bday-card">
+        <!-- Top part of the card: image + decorations -->
+        <div class="bday-decor--container">
+          <div class="bday-pic">
+            <img
+              src="https://images.unsplash.com/photo-1572451479139-6a308211d8be?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2670&q=80"
+            />
+          </div>
+
+          <p class="bday-decor bday-decor--top-right float">🎈</p>
+          <p class="bday-decor bday-decor--top-left spin">🌼</p>
+        </div>
+
+        <!-- Banner -->
+        <!-- <h1 class="bday-banner"><span>Happy</span> <span>Birthday</span></h1> -->
+        <div class="bdat-text">
+          <img src="bd.png" alt="" />
+        </div>
+        <!-- Message + decoration -->
+        <div class="bday-message bday-message--paper">
+          <p>
+            to the first and always been the first most fav. person in my life,
+            <b> <i>happy birthday yrr priyankaaa 🫶🫶</i></b> thank you for
+            everything you do, you mean the world to me yrr, i love you laugh
+            with me, thank you for giving me a place to feel safe, thank you for
+            allowing me to express my emotions and never ever judging me for
+            them, thank you for supporting me and finally thank you for being
+            you. <br />
+            <i
+              >i don't know how to say it to you, but yeah abh tarishi, jyotima,
+              mansi or chubbu or anamika ke hone se i am fine sb kuch thek chl
+              rha hai, but still yrr i miss you, i miss us haa mai ye kbhi kisi
+              se nhi bolti lekin bohot yaad aati h yrr, humara vo call pe har
+              din ghanto baat krna apni lifes ke baare me discuss krna faltu ki
+              idhar udhar ki baatein krna, jo log hume school me pasand nhi the
+              unki bitching krna sb bohot yaad aata hai lekin phir mai khud ko
+              hi ye smjhati bhi rehti hu ki abhi jo ye time chl rha h ye hume
+              humari aane vali life ko comfort bnane ke liye bohot zaruri h or
+              hume ye face krna hi pdega , bss yhi sochke i'll get back to my
+              codiing ki duniya errors syntax etc😂, but keep it clear in your
+              mind bro, chahe kitne bhi dost kyu naa aajaye meri life me, chahe
+              vo office colleagues ho ya koi bhi ho, you will always be my fav.
+              and always be the one and only best friend/besties/soul
+              sister/sister by another mother or whatever it is, you will always
+              be there 😊❣️....</i
+            >
+            <b> virtual lots of love 😂💖🍰, from Chitra💖✨</b>
+          </p>
+          <!-- <p class="bday-decor bday-decor--bottom-right zoom-left-in-out">🎉</p> -->
+        </div>
+      </div>
+
+      <!-- gifs -->
+      <div class="hbd-gif">
+        <img src="animation_lms00e9s_small.gif" width="90px" alt="" /><br />
+        <img
+          src="animation_lms00e9s_small.gif"
+          width="80px"
+          alt=""
+          style="margin-left: 50px"
+        /><br />
+        <img src="animation_lms00e9s_small.gif" alt="" width="90px" /><br />
+        <img
+          src="animation_lms00e9s_small.gif"
+          alt=""
+          width="80px"
+          style="margin-left: 50px"
+        /><br />
+        <img src="animation_lms00e9s_small.gif" alt="" width="90px" /><br />
+        <img
+          src="animation_lms00e9s_small.gif"
+          alt=""
+          width="80px"
+          style="margin-left: 50px"
+        />
+      </div>
+      <div class="hbd-gif" style="position: absolute; bottom: 0; right: 0">
+        <img src="animation_lms00e9s_small.gif" width="90px" alt="" /><br />
+        <img
+          src="animation_lms00e9s_small.gif"
+          width="80px"
+          alt=""
+          style="margin-left: 50px"
+        /><br />
+        <img src="animation_lms00e9s_small.gif" alt="" width="90px" /><br />
+        <img
+          src="animation_lms00e9s_small.gif"
+          alt=""
+          width="80px"
+          style="margin-left: 50px"
+        /><br />
+        <img src="animation_lms00e9s_small.gif" alt="" width="90px" /><br />
+        <img
+          src="animation_lms00e9s_small.gif"
+          alt=""
+          width="80px"
+          style="margin-left: 50px"
+        />
+      </div>
+    </div>
+  </body>
+</html>
