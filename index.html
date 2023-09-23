@@ -78,8 +78,8 @@ This uses CSS variables - so you only have to change the colors in one place */
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 280px;
-      height: 240px;
+      width: 180px;
+      height: 140px;
       padding: var(--space-sm) var(--space-sm) var(--space-xlg);
       background: white;
       border-radius: 4px;
@@ -127,11 +127,11 @@ This uses CSS variables - so you only have to change the colors in one place */
 
     .bday-message {
       max-width: 80%;
-      padding: 35px var(--space);
+      padding: 10px;
       /* font-family: var(--font-text); */
       font-family: "Cookie", cursive;
-      font-size: 24px;
-      line-height: 32px;
+      font-size: 20px;
+      line-height: 26px;
       color: var(--message-txt);
       background-color: var(--message-bg);
     }
@@ -286,8 +286,8 @@ This uses CSS variables - so you only have to change the colors in one place */
     }
     .bdat-text {
       position: relative;
-      width: 100px;
-      height: 100px;
+      /* width: 100px;
+      height: 100px; */
       left: -123px;
     }
     .bdat-text img {
@@ -319,7 +319,7 @@ This uses CSS variables - so you only have to change the colors in one place */
       overflow: hidden;
       width: 100%;
     }
-    .slider::before,
+    /* .slider::before,
     .slider::after {
       background: linear-gradient(
         to right,
@@ -331,7 +331,7 @@ This uses CSS variables - so you only have to change the colors in one place */
       position: absolute;
       width: 200px;
       z-index: 2;
-    }
+    } */
     .slider::after {
       right: 0;
       top: 0;
@@ -362,6 +362,56 @@ This uses CSS variables - so you only have to change the colors in one place */
     .slider.text-slider .slide p {
       font-family: "Cookie", cursive;
       font-size: 20px;
+    }
+
+    /* SMARTPHONES PORTRAIT */
+    @media only screen and (min-width: 300px) {
+      .bday-card {
+        top: 40%;
+      }
+      .bdat-text {
+        left: -80px;
+      }
+      .bdat-text img {
+        width: 200px;
+      }
+      .hbd-gif {
+        display: none;
+      }
+      body {
+        overflow: auto;
+      }
+    }
+
+    /* SMARTPHONES LANDSCAPE */
+    @media only screen and (min-width: 480px) {
+    }
+
+    /* TABLETS PORTRAIT */
+    @media only screen and (min-width: 768px) {
+    }
+
+    /* TABLET LANDSCAPE / DESKTOP */
+    @media only screen and (min-width: 1024px) {
+      .bday-card {
+        top: 0;
+      }
+      .bdat-text {
+        left: -170px;
+      }
+      .bdat-text img {
+        width: 400px;
+      }
+      .hbd-gif {
+        display: block;
+      }
+      body {
+        overflow: hidden;
+      }
+      .bday-message {
+        margin-top: 200px;
+        width: 70%;
+      }
     }
   </style>
   <body>
